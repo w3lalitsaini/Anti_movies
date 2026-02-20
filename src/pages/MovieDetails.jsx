@@ -49,34 +49,34 @@ const MovieDetails = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reviews, setReviews] = useState([]);
 
- useEffect(() => {
-   const fetchFullDetails = async () => {
-     setLoading(true);
-     try {
-       const { data } = await API.get(`/movies/${slug}`);
-       setMovie(data);
-       document.title = `${data.title} (${new Date(data.releaseDate).getFullYear()}) Download Hindi Audio - AtoZ Movies`;
+  useEffect(() => {
+    const fetchFullDetails = async () => {
+      setLoading(true);
+      try {
+        const { data } = await API.get(`/movies/${slug}`);
+        setMovie(data);
+        document.title = `${data.title} (${new Date(data.releaseDate).getFullYear()}) Download Hindi Audio - AtoZ Movies`;
 
-       if (user) {
-         // FIX: Convert to String for comparison
-         setIsFavorite(
-           user.favorites?.some((m) => String(m._id || m) === data._id),
-         );
-         setInWishlist(
-           user.watchlist?.some((m) => String(m._id || m) === data._id),
-         );
-       }
+        if (user) {
+          // FIX: Convert to String for comparison
+          setIsFavorite(
+            user.favorites?.some((m) => String(m._id || m) === data._id),
+          );
+          setInWishlist(
+            user.watchlist?.some((m) => String(m._id || m) === data._id),
+          );
+        }
 
-       const reviewRes = await API.get(`/reviews/${data._id}`);
-       setReviews(reviewRes.data);
-     } catch (err) {
-       toast.error("Failed to load movie details");
-     } finally {
-       setLoading(false);
-     }
-   };
-   fetchFullDetails();
- }, [slug, user]);
+        const reviewRes = await API.get(`/reviews/${data._id}`);
+        setReviews(reviewRes.data);
+      } catch (err) {
+        toast.error("Failed to load movie details");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFullDetails();
+  }, [slug, user]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -108,31 +108,31 @@ const MovieDetails = () => {
   };
 
   // Updated: Navigate to Random Movie on Download Click
- const handleDownloadClick = async () => {
-   toast.info("Verifying secure tunnel...", {
-     icon: <ShieldCheck className="text-green-500" />,
-   });
-   try {
-     // Better approach: Ask backend for a random movie or handle empty list
-     const { data } = await API.get("/movies?limit=10&page=1"); // Or specific endpoint
+  const handleDownloadClick = async () => {
+    toast.info("Verifying secure tunnel...", {
+      icon: <ShieldCheck className="text-green-500" />,
+    });
+    try {
+      // Better approach: Ask backend for a random movie or handle empty list
+      const { data } = await API.get("/movies?limit=10&page=1"); // Or specific endpoint
 
-     const otherMovies = data.movies.filter((m) => m.slug !== slug);
+      const otherMovies = data.movies.filter((m) => m.slug !== slug);
 
-     if (otherMovies.length > 0) {
-       const randomMovie =
-         otherMovies[Math.floor(Math.random() * otherMovies.length)];
-       setTimeout(() => {
-         navigate(`/movie/${randomMovie.slug}`);
-         window.scrollTo(0, 0);
-       }, 1200);
-     } else {
-       // Handle case where no other movies exist
-       toast.error("No other movies found to redirect to.");
-     }
-   } catch (err) {
-     toast.error("Server busy. Try again later.");
-   }
- };
+      if (otherMovies.length > 0) {
+        const randomMovie =
+          otherMovies[Math.floor(Math.random() * otherMovies.length)];
+        setTimeout(() => {
+          navigate(`/movie/${randomMovie.slug}`);
+          window.scrollTo(0, 0);
+        }, 1200);
+      } else {
+        // Handle case where no other movies exist
+        toast.error("No other movies found to redirect to.");
+      }
+    } catch (err) {
+      toast.error("Server busy. Try again later.");
+    }
+  };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -411,6 +411,9 @@ const MovieDetails = () => {
           </div>
         )}
 
+        <AdSense slot={siteConfig.ads.slots.movieDetailsReviews} />
+
+        <AdSense slot={siteConfig.ads.slots.movieDetailsReviews} />
         {/* DOWNLOAD SECTION */}
         <div className="mt-20 bg-[#0c0c0c] border-2 border-red-600/20 rounded-3xl p-8 md:p-14 shadow-[0_0_80px_rgba(220,38,38,0.1)] relative text-center">
           <div className="flex flex-col items-center justify-center gap-3 mb-12">
@@ -650,7 +653,7 @@ const RecommendedMovies = ({ currentSlug }) => {
     const fetchRecommended = async () => {
       try {
         const { data } = await API.get(
-          `/movies/recommendations/${currentSlug}`,
+          `/movies/${currentSlug}/recommendations`,
         );
         setRecommended(data);
       } catch (err) {
