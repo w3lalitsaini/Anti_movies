@@ -4,7 +4,10 @@ import { Helmet } from "react-helmet-async";
 import API from "../api/axios";
 import MovieCard from "../components/MovieCard";
 import SkeletonCard from "../components/SkeletonCard";
-import { TrendingUp, Filter, Play } from "lucide-react";
+import { TrendingUp, Filter, Play, Zap } from "lucide-react";
+
+import siteConfig from "../config/siteConfig";
+import AdSense from "../components/AdSense";
 
 const GENRES = [
   "Action",
@@ -15,7 +18,7 @@ const GENRES = [
   "Thriller",
   "Romance",
   "Animation",
-  "Documentary",
+  "South",
 ];
 
 const Home = () => {
@@ -36,7 +39,7 @@ const Home = () => {
         const { data } = await API.get("/movies/trending");
         setTrending(data);
       } catch (err) {
-        console.error("Trending fetch error:", err);
+        console.error(err);
       } finally {
         setTrendingLoading(false);
       }
@@ -59,7 +62,7 @@ const Home = () => {
         setMovies(data.movies);
         setTotalPages(data.totalPages);
       } catch (err) {
-        console.error("Movies fetch error:", err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -69,115 +72,67 @@ const Home = () => {
 
   const heroMovie = trending[0];
 
-  // Reusable Ad Slot Component
-  const AdSlot = ({ label, className = "" }) => (
-    <div
-      className={`glass border border-dashed border-neutral-700 flex flex-col items-center justify-center bg-neutral-900/40 overflow-hidden ${className}`}
-    >
-      <span className="text-[9px] uppercase tracking-[0.2em] text-neutral-600 mb-1">
-        Sponsored Content
-      </span>
-      <span className="text-xs font-mono text-neutral-500">{label}</span>
-    </div>
-  );
-
   return (
-    <div className="relative min-h-screen bg-[#0a0a0a] text-white">
+    <div className="relative min-h-screen bg-[#050505] text-white font-sans">
       <Helmet>
-        <title>
-          {heroMovie
-            ? `Watch ${heroMovie.title} Online | CineRate HD Movies`
-            : "CineRate | Watch Latest Bollywood, Hollywood & Dual Audio Movies"}
-        </title>
+        <title>{siteConfig.seo.defaultTitle}</title>
+        <meta name="description" content={siteConfig.seo.defaultDescription} />
         <meta
-          name="description"
-          content={
-            heroMovie
-              ? `Stream ${heroMovie.title} in HD. ${heroMovie.description?.substring(0, 150)}...`
-              : "Stream the latest movies in HD. Download Bollywood, Hollywood, and Tamil movies with dual audio support."
-          }
+          name="keywords"
+          content="movies, download movies, hindi dubbed, bollywood movies, hollywood movies, 480p, 720p, 1080p, AtoZ Movies"
         />
-        {/* OpenGraph for Social Media Sharing */}
         <meta
           property="og:title"
-          content={heroMovie?.title || "CineRate - Latest Movies"}
+          content="AtoZ Movies - Full Movie Downloads"
         />
         <meta
           property="og:description"
-          content={
-            heroMovie?.description || "Watch the latest movies in HD quality."
-          }
-        />
-        <meta
-          property="og:image"
-          content={heroMovie?.poster || "/default-banner.jpg"}
+          content="Download the latest Hollywood and Bollywood movies in high quality."
         />
         <meta property="og:type" content="website" />
       </Helmet>
 
-      {/* FIXED SIDE ADS (Hiding handled by padding below) */}
-      <aside className="hidden xl:block fixed left-4 top-28 w-[160px] h-[calc(100vh-140px)] z-10">
-        <AdSlot label="Left Skyscraper" className="h-full w-full rounded-lg" />
-      </aside>
-      <aside className="hidden xl:block fixed right-4 top-28 w-[160px] h-[calc(100vh-140px)] z-10">
-        <AdSlot label="Right Skyscraper" className="h-full w-full rounded-lg" />
-      </aside>
-
       {/* Hero Section */}
-      {heroMovie && (
-        <div className="relative h-[80vh] w-full overflow-hidden">
+      {heroMovie && !search && (
+        <div className="relative h-[70vh] w-full overflow-hidden border-b border-neutral-800">
           <img
             src={heroMovie.poster}
             alt={heroMovie.title}
-            className="w-full h-full object-cover transform scale-105 animate-slow-zoom"
+            className="w-full h-full object-cover opacity-60"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-
-          <div className="absolute bottom-20 left-6 md:left-20 lg:left-32 max-w-2xl z-20">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="bg-primary/20 text-primary border border-primary/50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-tighter">
-                #1 Trending This Week
-              </span>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-black mb-4 tracking-tight leading-none italic uppercase">
+          <div className="absolute inset-0 bg-linear-to-t from-[#050505] via-transparent to-transparent" />
+          <div className="absolute bottom-10 left-6 md:left-20 z-20">
+            <span className="bg-red-600 text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase mb-4 inline-block">
+              Featured Today
+            </span>
+            <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase italic text-white drop-shadow-2xl">
               {heroMovie.title}
             </h1>
-            <p className="text-neutral-300 text-lg mb-8 line-clamp-3 font-medium max-w-lg">
-              {heroMovie.description}
-            </p>
-            <div className="flex flex-wrap gap-4">
-              // Find this line inside your Hero Section (around line 140)
-              <Link
-                to={`/movie/${heroMovie.slug || heroMovie._id}`} // Updated to use slug first
-                className="bg-primary hover:bg-yellow-400 text-black font-bold px-10 py-4 rounded-full flex items-center gap-2 transition-all transform hover:scale-105"
-              >
-                <Play className="fill-current w-5 h-5" /> WATCH NOW
-              </Link>
-            </div>
+            <Link
+              to={`/movie/${heroMovie.slug}`}
+              className="bg-white text-black font-black px-8 py-3 rounded-md flex items-center gap-2 w-fit hover:bg-red-600 hover:text-white transition-all"
+            >
+              <Play className="fill-current w-4 h-4" /> DOWNLOAD NOW
+            </Link>
           </div>
         </div>
       )}
 
-      {/* MAIN CONTENT AREA */}
-      {/* xl:px-[200px] provides the necessary gutter so content doesn't touch the side ads */}
-      <main className="max-w-[1600px] mx-auto px-6 xl:px-[200px] py-12 relative z-20">
-        {/* AD SLOT: Top Leaderboard */}
-        <AdSlot
-          label="728x90 Top Leaderboard"
-          className="w-full h-24 mb-16 rounded-2xl shadow-2xl"
-        />
+      <main className="max-w-7xl mx-auto px-6 py-10">
+        {/* TOP AD: Poster Ad (9153983942) */}
+        <AdSense slot={siteConfig.ads.slots.homeTop} />
 
-        {/* Trending Section */}
+        {/* Trending Grid */}
         {!search && (
-          <section className="mb-20">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-black uppercase tracking-tighter flex items-center gap-3">
-                <TrendingUp className="text-primary w-8 h-8" />
-                Trending <span className="text-primary italic">Now</span>
+          <section className="mb-16">
+            <div className="flex items-center gap-2 mb-8">
+              <TrendingUp className="text-red-600 w-6 h-6" />
+              <h2 className="text-2xl font-black uppercase tracking-tighter italic">
+                Trending <span className="text-red-600">AtoZ</span>
               </h2>
+              <div className="h-px flex-1 bg-neutral-800 ml-4"></div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {trendingLoading
                 ? Array(5)
                     .fill(0)
@@ -187,38 +142,21 @@ const Home = () => {
           </section>
         )}
 
-        {/* AD SLOT: Mid-Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-          <AdSlot label="Native Content Ad" className="h-40 rounded-2xl" />
-          <AdSlot label="Marketing Promo" className="h-40 rounded-2xl" />
-        </div>
+        {/* IN-ARTICLE AD (2125541166) */}
+        <AdSense slot="2125541166" format="fluid" />
 
-        {/* Discovery Section (Filters) */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 bg-neutral-900/50 p-6 rounded-3xl border border-neutral-800">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-neutral-800 rounded-2xl">
-              <Filter className="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <h4 className="font-bold text-white leading-none">
-                Filter Library
-              </h4>
-              <p className="text-xs text-neutral-500 mt-1">
-                Discover by genre or release
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
+        {/* Filters */}
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-10 bg-neutral-900/40 p-4 rounded-xl border border-neutral-800">
+          <div className="flex gap-2">
             <select
-              className="bg-neutral-800 border-none text-white rounded-xl px-5 py-3 focus:ring-2 focus:ring-primary cursor-pointer transition-all"
+              className="bg-black border border-neutral-700 text-[11px] font-bold uppercase p-2 rounded focus:border-red-600 outline-none"
               value={selectedGenre}
               onChange={(e) => {
                 setSelectedGenre(e.target.value);
                 setCurrentPage(1);
               }}
             >
-              <option value="">All Categories</option>
+              <option value="">All Genres</option>
               {GENRES.map((g) => (
                 <option key={g} value={g}>
                   {g}
@@ -226,30 +164,28 @@ const Home = () => {
               ))}
             </select>
             <select
-              className="bg-neutral-800 border-none text-white rounded-xl px-5 py-3 focus:ring-2 focus:ring-primary cursor-pointer transition-all"
+              className="bg-black border border-neutral-700 text-[11px] font-bold uppercase p-2 rounded focus:border-red-600 outline-none"
               value={sortBy}
               onChange={(e) => {
                 setSortBy(e.target.value);
                 setCurrentPage(1);
               }}
             >
-              <option value="">Sort: Default</option>
+              <option value="">Newest First</option>
               <option value="rating">Top Rated</option>
-              <option value="newest">Latest Uploads</option>
             </select>
           </div>
+          <span className="text-[10px] font-black text-neutral-500 tracking-[0.2em] uppercase">
+            AtoZ Movies Database
+          </span>
         </div>
 
-        {/* Movie Grid */}
+        {/* Main Library Grid */}
         <section>
-          <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-3xl font-black uppercase tracking-tighter">
-              {search ? `Search: ${search}` : "Library"}
-            </h2>
-            <div className="h-[2px] flex-1 bg-neutral-800" />
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <h2 className="text-xl font-black mb-8 uppercase tracking-widest border-l-4 border-red-600 pl-4">
+            {search ? `Search Results: ${search}` : "Latest Uploads"}
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {loading
               ? Array(12)
                   .fill(0)
@@ -257,26 +193,23 @@ const Home = () => {
               : movies.map((m) => <MovieCard key={m._id} movie={m} />)}
           </div>
 
-          {/* AD SLOT: Bottom Leaderboard */}
-          <AdSlot
-            label="970x250 Large Ad"
-            className="w-full h-64 mt-20 mb-10 rounded-3xl"
-          />
+          {/* AUTORELAXED AD (5985180530) */}
+          <AdSense slot="5985180530" format="autorelaxed" />
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-3 mt-12 pb-20">
+            <div className="flex justify-center items-center gap-2 mt-16">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                 (page) => (
                   <button
                     key={page}
                     onClick={() => {
                       setCurrentPage(page);
-                      window.scrollTo({ top: 400, behavior: "smooth" });
+                      window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className={`w-12 h-12 rounded-2xl font-bold transition-all ${
+                    className={`w-10 h-10 rounded font-black text-xs transition-all ${
                       currentPage === page
-                        ? "bg-primary text-black scale-110 shadow-[0_0_20px_rgba(234,179,8,0.3)]"
+                        ? "bg-red-600 text-white"
                         : "bg-neutral-900 text-neutral-500 hover:bg-neutral-800"
                     }`}
                   >
@@ -288,6 +221,24 @@ const Home = () => {
           )}
         </section>
       </main>
+
+      {/* SEO FOOTER */}
+      <footer className="bg-black border-t border-neutral-900 py-10 px-6 text-center">
+        <div className="flex items-center justify-center gap-1 mb-4">
+          <span className="text-white font-black text-xl tracking-tighter">
+            AtoZ
+          </span>
+          <span className="bg-red-600 text-white px-1 rounded-sm font-black text-xl tracking-tighter italic">
+            MOVIES
+          </span>
+        </div>
+        <p className="text-[9px] text-neutral-600 max-w-2xl mx-auto uppercase leading-loose font-bold">
+          AtoZMovies.com is a movie indexing service. We provide details,
+          ratings, and technical specs for educational purposes only. Download
+          Bollywood, Hollywood, and South Hindi Dubbed movies in multiple
+          qualities.
+        </p>
+      </footer>
     </div>
   );
 };

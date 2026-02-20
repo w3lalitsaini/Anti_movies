@@ -7,49 +7,85 @@ import {
   Youtube,
   Mail,
   ShieldCheck,
+  Send,
+  Zap,
 } from "lucide-react";
+import siteConfig from "../config/siteConfig";
 
 const Footer = () => {
   return (
-    /* xl:px-[200px] ensures the footer content stays centered between your side ads */
-    <footer className="bg-[#0a0a0a] border-t border-neutral-800 pt-16 pb-8 px-6 xl:px-[200px] mt-20 relative z-20">
+    <footer className="bg-[#050505] border-t border-neutral-800 pt-16 pb-8 px-6 xl:px-[200px] mt-20 relative z-20">
       <div className="max-w-[1600px] mx-auto">
         {/* Top Section: Branding & Newsletter */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 lg:col-span-1">
-            <Link
-              to="/"
-              className="text-3xl font-black text-primary tracking-tighter uppercase italic"
-            >
-              CineRate
+            {/* BRAND LOGO */}
+            <Link to="/" className="flex items-center gap-1 mb-6">
+              <span className="text-white font-black text-3xl tracking-tighter uppercase">
+                AtoZ
+              </span>
+              <span className="bg-red-600 text-white px-1.5 rounded-sm font-black text-3xl tracking-tighter uppercase italic">
+                Movies
+              </span>
             </Link>
-            <p className="text-neutral-400 mt-4 leading-relaxed">
-              The world's most popular destination for Movie enthusiasts. Get
-              the latest Dual Audio, Bollywood, and Hollywood updates instantly.
+
+            <p className="text-neutral-500 mt-4 text-sm leading-relaxed">
+              AtoZ Movies is the premier destination for high-quality movie
+              downloads. We provide the latest Bollywood, Hollywood, and South
+              Hindi Dubbed content in 480p, 720p, and 1080p WEB-DL qualities.
             </p>
+
             <div className="flex gap-4 mt-6">
-              <Facebook className="w-5 h-5 text-neutral-500 hover:text-primary cursor-pointer transition-colors" />
-              <Twitter className="w-5 h-5 text-neutral-500 hover:text-primary cursor-pointer transition-colors" />
-              <Instagram className="w-5 h-5 text-neutral-500 hover:text-primary cursor-pointer transition-colors" />
-              <Youtube className="w-5 h-5 text-neutral-500 hover:text-primary cursor-pointer transition-colors" />
+              <a
+                href={siteConfig.links.facebook}
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 bg-neutral-900 rounded hover:bg-red-600 hover:text-white text-neutral-500 transition-all cursor-pointer"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a
+                href={siteConfig.links.twitter}
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 bg-neutral-900 rounded hover:bg-blue-400 hover:text-white text-neutral-500 transition-all cursor-pointer"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a
+                href={siteConfig.links.youtube}
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 bg-neutral-900 rounded hover:bg-red-500 hover:text-white text-neutral-500 transition-all cursor-pointer"
+              >
+                <Youtube className="w-5 h-5" />
+              </a>
+              <a
+                href={siteConfig.links.telegram}
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 bg-neutral-900 rounded hover:bg-blue-500 hover:text-white text-neutral-500 transition-all cursor-pointer"
+              >
+                <Send className="w-5 h-5" />
+              </a>
             </div>
           </div>
 
           {/* Quick Links for SEO */}
           <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">
-              Navigation
+            <h4 className="text-white font-black mb-6 uppercase tracking-[0.2em] text-xs flex items-center gap-2">
+              <div className="w-1 h-4 bg-red-600"></div> Explore AtoZ
             </h4>
-            <ul className="space-y-3 text-neutral-500 text-sm">
+            <ul className="space-y-3 text-neutral-500 text-[13px] font-bold uppercase tracking-tight">
               <li>
-                <Link to="/" className="hover:text-primary transition-colors">
-                  Browse Movies
+                <Link to="/" className="hover:text-red-500 transition-colors">
+                  Search Database
                 </Link>
               </li>
               <li>
                 <Link
                   to="/trending"
-                  className="hover:text-primary transition-colors"
+                  className="hover:text-red-500 transition-colors"
                 >
                   Trending Now
                 </Link>
@@ -57,17 +93,17 @@ const Footer = () => {
               <li>
                 <Link
                   to="/dual-audio"
-                  className="hover:text-primary transition-colors"
+                  className="hover:text-red-500 transition-colors"
                 >
-                  Dual Audio Content
+                  Dual Audio 18+
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/watchlist"
-                  className="hover:text-primary transition-colors"
+                  to="/web-series"
+                  className="hover:text-red-500 transition-colors"
                 >
-                  My Watchlist
+                  Netflix Series
                 </Link>
               </li>
             </ul>
@@ -75,40 +111,40 @@ const Footer = () => {
 
           {/* Content Categories */}
           <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">
-              Categories
+            <h4 className="text-white font-black mb-6 uppercase tracking-[0.2em] text-xs flex items-center gap-2">
+              <div className="w-1 h-4 bg-red-600"></div> Categories
             </h4>
-            <ul className="space-y-3 text-neutral-500 text-sm">
+            <ul className="space-y-3 text-neutral-500 text-[13px] font-bold uppercase tracking-tight">
               <li>
                 <Link
                   to="/?genre=Action"
-                  className="hover:text-primary transition-colors"
+                  className="hover:text-red-500 transition-colors"
                 >
-                  Action Movies
+                  Action & Sci-Fi
                 </Link>
               </li>
               <li>
                 <Link
                   to="/?genre=Bollywood"
-                  className="hover:text-primary transition-colors"
+                  className="hover:text-red-500 transition-colors"
                 >
-                  Bollywood Hits
+                  Bollywood Hindi
                 </Link>
               </li>
               <li>
                 <Link
                   to="/?genre=Hollywood"
-                  className="hover:text-primary transition-colors"
+                  className="hover:text-red-500 transition-colors"
                 >
-                  Hollywood Classics
+                  Hollywood English
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/?genre=Sci-Fi"
-                  className="hover:text-primary transition-colors"
+                  to="/?genre=South"
+                  className="hover:text-red-500 transition-colors"
                 >
-                  Science Fiction
+                  South Hindi Dubbed
                 </Link>
               </li>
             </ul>
@@ -116,50 +152,74 @@ const Footer = () => {
 
           {/* Newsletter / Professional Touch */}
           <div>
-            <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">
-              Stay Updated
+            <h4 className="text-white font-black mb-6 uppercase tracking-[0.2em] text-xs flex items-center gap-2">
+              <div className="w-1 h-4 bg-red-600"></div> Telegram Alerts
             </h4>
-            <p className="text-neutral-500 text-xs mb-4">
-              Subscribe to get notified about the latest movie releases.
+            <p className="text-neutral-500 text-xs mb-4 leading-loose">
+              Join our Telegram channel or subscribe for the latest upload
+              notifications.
             </p>
-            <div className="flex bg-neutral-900 rounded-lg p-1 border border-neutral-800">
+            <div className="flex bg-neutral-900 rounded p-1 border border-neutral-800">
               <input
                 type="email"
-                placeholder="Email address"
-                className="bg-transparent border-none text-white text-xs px-3 focus:outline-none w-full"
+                placeholder="Enter Email Address"
+                className="bg-transparent border-none text-white text-[10px] font-bold px-3 focus:outline-none w-full uppercase"
               />
-              <button className="bg-primary text-black p-2 rounded-md hover:bg-yellow-500 transition-all">
+              <button className="bg-red-600 text-white p-2 rounded hover:bg-red-700 transition-all">
                 <Mail className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
+        {/* SEO Technical Footer */}
+        <div className="bg-neutral-900/20 p-6 rounded-lg border border-neutral-800/50 mb-8">
+          <p className="text-[10px] text-neutral-600 leading-relaxed text-justify uppercase font-medium">
+            Disclaimer: AtoZMovies.com does not store any files on its server.
+            All contents are provided by non-affiliated third parties. AtoZ
+            Movies indexes technical metadata of films including{" "}
+            {new Date().getFullYear()} releases. We encourage users to watch
+            movies in theaters or buy official streaming subscriptions.
+          </p>
+        </div>
+
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-neutral-900 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-2 text-neutral-600 text-xs">
-            <ShieldCheck className="w-4 h-4" />
-            <span>Trusted by over 1 Million Cinephiles</span>
+          <div className="flex items-center gap-2 text-neutral-500 text-[10px] font-black uppercase tracking-widest">
+            <ShieldCheck className="w-4 h-4 text-red-600" />
+            <span>Secure SSL Encrypted Browsing</span>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6 text-xs text-neutral-500">
-            <a href="#" className="hover:text-white transition-colors">
+          <div className="flex flex-wrap justify-center gap-6 text-[10px] font-black uppercase text-neutral-500">
+            <Link
+              to={siteConfig.footerLinks.dmca}
+              className="hover:text-red-500 transition-colors"
+            >
               DMCA
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
+            </Link>
+            <Link
+              to={siteConfig.footerLinks.privacy}
+              className="hover:text-red-500 transition-colors"
+            >
               Privacy Policy
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Terms of Service
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Contact Us
-            </a>
+            </Link>
+            <Link
+              to={siteConfig.footerLinks.contact}
+              className="hover:text-red-500 transition-colors"
+            >
+              Contact
+            </Link>
+            <Link
+              to={siteConfig.footerLinks.sitemap}
+              className="hover:text-red-500 transition-colors"
+            >
+              Sitemap
+            </Link>
           </div>
 
-          <div className="text-neutral-600 text-[10px] font-mono tracking-tighter">
-            &copy; {new Date().getFullYear()} CINERATE MEDIA GROUP. ALL RIGHTS
-            RESERVED.
+          <div className="text-neutral-700 text-[10px] font-black tracking-tighter uppercase">
+            &copy; {new Date().getFullYear()}{" "}
+            <span className="text-red-900">ATOZ MOVIES</span> NETWORK.
           </div>
         </div>
       </div>
