@@ -23,6 +23,9 @@ import Profile from "./pages/Profile";
 import Favorites from "./pages/Favorites";
 import Watchlist from "./pages/Watchlist";
 import AdminDashboard from "./pages/AdminDashboard";
+import DMCA from "./pages/DMCA";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Contact from "./pages/Contact";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -42,6 +45,9 @@ function App() {
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/watchlist" element={<Watchlist />} />
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/dmca" element={<DMCA />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/contact" element={<Contact />} />
             </Routes>
           </main>
           <Footer />

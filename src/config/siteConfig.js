@@ -1,16 +1,19 @@
 const siteConfig = {
   name: "AtoZ Movies",
-  domain: "atozmovies.com",
-  baseUrl: "http://localhost:5000/api", // Update this for production
+  domain: "https://atozmovies.com",
+
+  // ✅ Production API (Render Backend)
+  baseUrl: "https://anti-movies-backend.onrender.com/api",
 
   // AdSense Configuration
   ads: {
     enabled: true,
-    client: "ca-pub-XXXXXXXXXXXXXXXX",
+    client: "ca-pub-2610891548777436",
+
     slots: {
-      homeTop: "1234567890",
-      movieDetailsTechnical: "0987654321",
-      movieDetailsReviews: "1122334455",
+      homeTop: "2125541166",
+      movieDetailsTechnical: "5985180530",
+      movieDetailsReviews: "9153983942",
     },
   },
 
@@ -18,29 +21,32 @@ const siteConfig = {
   links: {
     telegram: "https://t.me/atozmovies",
     whatsapp: "https://wa.me/atozmovies",
-    facebook: "https://facebook.com/atozmovies",
-    twitter: "https://twitter.com/atozmovies",
-    youtube: "https://youtube.com/atozmovies",
+    facebook: "https://facebook.com/atozmoviesss",
+    twitter: "https://twitter.com/atozmoviesss",
+    youtube: "https://youtube.com/atozmoviesss",
     send: "https://t.me/atozmovies_bot",
   },
 
   // SEO Defaults
   seo: {
     defaultTitle:
-      "AtoZ Movies - Download 480p, 720p, 1080p Movies | Hindi Dubbed & Bollywood",
+      "AtoZ Movies - Latest Bollywood, Hollywood & Hindi Dubbed Movies",
+
     defaultDescription:
-      "AtoZ Movies - Your number one source for downloading Hollywood, Bollywood, and Hindi Dubbed movies in 480p, 720p, and 1080p. Fast and secure downloads.",
+      "Explore Bollywood, Hollywood, and Hindi Dubbed movies in multiple qualities. Reviews, details, and updates all in one place.",
+
     keywords:
-      "AtoZ Movies, movie downloads, bollywood movies, hollywood movies, hindi dubbed",
+      "AtoZ Movies, Bollywood movies, Hollywood movies, Hindi dubbed movies, movie reviews",
   },
 
-  // External / Legal Links
+  // Legal / Footer Links
   footerLinks: {
     dmca: "/dmca",
-    privacy: "/privacy",
+    privacy: "/privacy-policy",
     contact: "/contact",
-    sitemap: "/sitemap",
+    sitemap: "/sitemap.xml",
   },
+  contactEmail: "contact@atozmovies.com",
 };
 
 export default siteConfig;
