@@ -178,25 +178,33 @@ const MovieDetails = () => {
   return (
     <div className="bg-[#050505] min-h-screen text-neutral-300 font-sans pb-20 selection:bg-red-600 selection:text-white">
       <Helmet>
-        <title>{`${movie.title} (${new Date(movie.releaseDate).getFullYear()}) Full Movie Download - AtoZ Movies`}</title>
+        <title>
+          {`${movie.title} (${new Date(movie.releaseDate).getFullYear()}) Review, Cast & Ratings | AtoZ Movies`}
+        </title>
+
         <meta
           name="description"
-          content={`Download ${movie.title} in ${movie.quality} ${movie.language}. ${movie.description.substring(0, 150)}...`}
+          content={`Read the detailed review of ${movie.title}. Check cast, story, runtime, ratings, trailer and where to watch in ${movie.language}.`}
         />
+
         <meta
           name="keywords"
-          content={`${movie.title}, download ${movie.title}, ${movie.language} movie, ${movie.quality} download, AtoZ Movies`}
+          content={`${movie.title} review, ${movie.title} cast, ${movie.title} rating, ${movie.language} movie review, ${movie.genre?.join(", ")}`}
         />
+
         <meta
           property="og:title"
-          content={`${movie.title} (${new Date(movie.releaseDate).getFullYear()}) - AtoZ Movies`}
+          content={`${movie.title} (${new Date(movie.releaseDate).getFullYear()}) – Review & Details`}
         />
+
         <meta
           property="og:description"
-          content={movie.description.substring(0, 160)}
+          content={`Explore ${movie.title} cast, plot summary, ratings and official streaming information.`}
         />
+
         <meta property="og:image" content={movie.poster} />
         <meta property="og:type" content="video.movie" />
+        <meta property="og:site_name" content="AtoZ Movies" />
       </Helmet>
 
       {/* BRANDED ANNOUNCEMENT BAR */}
@@ -413,6 +421,53 @@ const MovieDetails = () => {
 
         <AdSense slot={siteConfig.ads.slots.movieDetailsReviews} />
 
+        {/* STREAMING & ACCESS OPTIONS */}
+        <div className="mt-20 bg-gradient-to-br from-[#0c0c0c] to-black border border-red-600/20 rounded-3xl p-10 shadow-[0_0_80px_rgba(220,38,38,0.08)] text-center relative overflow-hidden">
+          <div className="absolute inset-0 opacity-5 bg-[url('/noise.png')]"></div>
+
+          <h2 className="text-4xl font-black text-white uppercase italic tracking-tight mb-4">
+            🎬 Watch {movie.title} Online
+          </h2>
+
+          <p className="text-neutral-500 text-sm uppercase tracking-widest font-bold mb-10">
+            Available On Official Streaming Platforms
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <a
+              href="#"
+              className="bg-neutral-900 hover:bg-red-600 transition-all rounded-2xl p-6 border border-neutral-800 hover:border-red-500 group"
+            >
+              <h3 className="text-white font-black text-lg mb-2 group-hover:scale-105 transition-transform">
+                Watch on Netflix
+              </h3>
+              <p className="text-neutral-400 text-xs uppercase">
+                HD • Official Stream
+              </p>
+            </a>
+
+            <a
+              href="#"
+              className="bg-neutral-900 hover:bg-blue-600 transition-all rounded-2xl p-6 border border-neutral-800 hover:border-blue-500 group"
+            >
+              <h3 className="text-white font-black text-lg mb-2 group-hover:scale-105 transition-transform">
+                Watch on Prime Video
+              </h3>
+              <p className="text-neutral-400 text-xs uppercase">4K Available</p>
+            </a>
+
+            <Link
+              to="/top-trending"
+              className="bg-neutral-900 hover:bg-green-600 transition-all rounded-2xl p-6 border border-neutral-800 hover:border-green-500 group"
+            >
+              <h3 className="text-white font-black text-lg mb-2">
+                Explore Similar Movies
+              </h3>
+              <p className="text-neutral-400 text-xs uppercase">Trending Now</p>
+            </Link>
+          </div>
+        </div>
+
         <AdSense slot={siteConfig.ads.slots.movieDetailsReviews} />
         {/* DOWNLOAD SECTION */}
         <div className="mt-20 bg-[#0c0c0c] border-2 border-red-600/20 rounded-3xl p-8 md:p-14 shadow-[0_0_80px_rgba(220,38,38,0.1)] relative text-center">
@@ -468,7 +523,7 @@ const MovieDetails = () => {
                   onClick={handleDownloadClick}
                   className={`flex-1 w-full ${link.color} hover:brightness-125 text-white py-5 rounded-xl font-black flex items-center justify-center gap-4 transition-all transform hover:scale-[1.02] shadow-xl text-xs tracking-widest`}
                 >
-                  <Download className="w-5 h-5" /> DOWNLOAD NOW
+                  <Download className="w-5 h-5" /> WATCH NOW
                 </button>
               </div>
             ))}

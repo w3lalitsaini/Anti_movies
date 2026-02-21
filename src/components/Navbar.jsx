@@ -169,20 +169,21 @@ const Navbar = () => {
 
       {/* Secondary Category Bar */}
       <div
-        className="bg-[#111]  border-b border-neutral-800 px-6 py-2.5 relative"
+        className="bg-[#111] border-b border-neutral-800 z-50 px-4 md:px-6 py-2.5 relative"
         ref={dropdownRef}
       >
-        <div className="flex items-center gap-8 max-w-7xl mx-auto">
-          <Link
-            to="/"
-            className="text-red-500 font-black text-xs uppercase flex items-center gap-1.5 hover:opacity-80 transition-opacity shrink-0"
-          >
-            <Zap className="w-3.5 h-3.5 fill-current" /> HOME
-          </Link>
+        <div className="flex items-center max-w-7xl mx-auto">
+          {/* Scrollable Categories Wrapper */}
+          <div className="flex items-center gap-6 overflow-x-auto  scrollbar-hide flex-1">
+            <Link
+              to="/"
+              className="text-red-500 font-black text-xs uppercase flex items-center gap-1.5 hover:opacity-80 transition-opacity shrink-0"
+            >
+              <Zap className="w-3.5 h-3.5 fill-current" /> HOME
+            </Link>
 
-          <div className="flex items-center gap-8">
             {categories.map((cat, index) => (
-              <div key={index} className="relative flex items-center">
+              <div key={index} className="relative shrink-0">
                 <button
                   onClick={() =>
                     cat.items &&
@@ -190,28 +191,38 @@ const Navbar = () => {
                       activeDropdown === cat.name ? null : cat.name,
                     )
                   }
-                  className="flex items-center gap-1.5 group cursor-pointer focus:outline-none whitespace-nowrap"
+                  className="flex items-center gap-1.5 group cursor-pointer whitespace-nowrap"
                 >
                   {cat.icon && (
                     <span className="text-xs group-hover:scale-110 transition-transform">
                       {cat.icon}
                     </span>
                   )}
+
                   <span
-                    className={`text-[11px] font-black uppercase tracking-tight transition-colors ${activeDropdown === cat.name ? "text-red-500" : "text-neutral-300 group-hover:text-white"}`}
+                    className={`text-[11px] font-black uppercase tracking-tight transition-colors ${
+                      activeDropdown === cat.name
+                        ? "text-red-500"
+                        : "text-neutral-300 group-hover:text-white"
+                    }`}
                   >
                     {cat.name}
                   </span>
+
                   {cat.items && (
                     <ChevronDown
-                      className={`w-3 h-3 text-neutral-600 transition-transform ${activeDropdown === cat.name ? "rotate-180 text-red-500" : ""}`}
+                      className={`w-3 h-3 text-neutral-600 transition-transform ${
+                        activeDropdown === cat.name
+                          ? "rotate-180 text-red-500"
+                          : ""
+                      }`}
                     />
                   )}
                 </button>
 
-                {/* Dropdown Menu Content */}
+                {/* Dropdown */}
                 {activeDropdown === cat.name && cat.items && (
-                  <div className="absolute top-[calc(100%+10px)] left-0 min-w-[160px] bg-[#0a0a0a] border border-neutral-800 rounded shadow-2xl py-2 z-[110]">
+                  <div className="absolute top-[calc(100%+8px)] left-0 min-w-[160px] bg-[#0a0a0a] border border-neutral-800 rounded shadow-2xl py-2  z-50 ">
                     {cat.items.map((subItem, i) => (
                       <Link
                         key={i}
@@ -228,10 +239,8 @@ const Navbar = () => {
             ))}
           </div>
 
-          <div className="flex-1"></div>
-
-          {/* Quality Badges */}
-          <div className="hidden lg:flex items-center gap-4 border-l border-neutral-800 pl-8 shrink-0">
+          {/* Desktop Quality Badges */}
+          <div className="hidden lg:flex items-center gap-4 border-l border-neutral-800 pl-6 ml-6">
             <span className="text-[10px] font-bold text-neutral-500 uppercase">
               Quality:
             </span>

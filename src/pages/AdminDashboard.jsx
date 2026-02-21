@@ -486,6 +486,9 @@ const AdminDashboard = () => {
                   <th className="py-4 px-4">Email Address</th>
                   <th className="py-4 px-4">Role</th>
                   <th className="py-4 px-4">Password Hash</th>
+                  <th className="py-4 px-4">Account Created</th>
+                  <th className="py-4 px-4">Favorites</th>
+                  <th className="py-4 px-4">Watchlist</th>
                   <th className="py-4 px-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -526,6 +529,17 @@ const AdminDashboard = () => {
                       <code className="text-[10px] text-neutral-600 font-mono bg-neutral-900 border border-neutral-800 px-2 py-1 rounded select-all hover:text-neutral-400 transition-colors">
                         {u.password || "********"}
                       </code>
+                    </td>
+                    <td className="py-4 px-4 text-neutral-400 text-sm">
+                      {new Date(u.createdAt).toLocaleDateString()}
+                    </td>
+
+                    <td className="py-4 px-4 text-neutral-400 text-sm">
+                      {u.favorites?.length || 0}
+                    </td>
+
+                    <td className="py-4 px-4 text-neutral-400 text-sm">
+                      {u.watchlist?.length || 0}
                     </td>
                     <td className="py-4 px-4 text-right">
                       <button

@@ -1,25 +1,32 @@
-import React, { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import siteConfig from "../config/siteConfig";
 
 const AdSense = ({ slot, format = "auto", className = "" }) => {
-  if (!siteConfig.ads.enabled) return null;
+  const adRef = useRef(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (!window.adsbygoogle) return;
+
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error("AdSense error:", e);
+      if (
+        adRef.current &&
+        !adRef.current.hasAttribute("data-adsbygoogle-status")
+      ) {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
+    } catch (err) {
+      console.error("AdSense error:", err);
     }
   }, []);
 
   return (
-    <div
-      className={`adsense-placeholder my-8 p-1 bg-neutral-900/10 border border-neutral-800/50 rounded-lg text-center ${className}`}
-    >
+    <div className={`my-8 text-center ${className}`}>
       <span className="text-[8px] text-neutral-600 uppercase tracking-widest block mb-1">
         Advertisement
       </span>
+
       <ins
+        ref={adRef}
         className="adsbygoogle"
         style={{ display: "block" }}
         data-ad-client={siteConfig.ads.client}

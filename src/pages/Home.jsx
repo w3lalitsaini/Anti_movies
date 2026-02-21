@@ -79,43 +79,111 @@ const Home = () => {
         <meta name="description" content={siteConfig.seo.defaultDescription} />
         <meta
           name="keywords"
-          content="movies, download movies, hindi dubbed, bollywood movies, hollywood movies, 480p, 720p, 1080p, AtoZ Movies"
+          content="movie reviews, film ratings, Bollywood reviews, Hollywood reviews, web series ratings"
         />
         <meta
           property="og:title"
-          content="AtoZ Movies - Full Movie Downloads"
+          content="AtoZ Movies | Honest Reviews & Ratings"
         />
         <meta
           property="og:description"
-          content="Download the latest Hollywood and Bollywood movies in high quality."
+          content="Explore trending Bollywood and Hollywood movies with reviews, ratings and technical details."
         />
         <meta property="og:type" content="website" />
       </Helmet>
 
-      {/* Hero Section */}
-      {heroMovie && !search && (
-        <div className="relative h-[70vh] w-full overflow-hidden border-b border-neutral-800">
-          <img
-            src={heroMovie.poster}
-            alt={heroMovie.title}
-            className="w-full h-full object-cover opacity-60"
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-[#050505] via-transparent to-transparent" />
-          <div className="absolute bottom-10 left-6 md:left-20 z-20">
-            <span className="bg-red-600 text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase mb-4 inline-block">
-              Featured Today
-            </span>
-            <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase italic text-white drop-shadow-2xl">
-              {heroMovie.title}
-            </h1>
-            <Link
-              to={`/movie/${heroMovie.slug}`}
-              className="bg-white text-black font-black px-8 py-3 rounded-md flex items-center gap-2 w-fit hover:bg-red-600 hover:text-white transition-all"
-            >
-              <Play className="fill-current w-4 h-4" /> DOWNLOAD NOW
-            </Link>
+      {/* Split Hero Section */}
+      {trending.length >= 3 && !search && (
+        <section className="px-6 md:px-10 py-8 bg-[#050505] border-b border-neutral-800">
+          <div className="grid md:grid-cols-3 gap-6 h-auto md:h-[75vh]">
+            {/* LEFT: Main Featured Movie */}
+            <div className="relative md:col-span-2 rounded-2xl overflow-hidden group">
+              <img
+                src={trending[0].poster}
+                alt={trending[0].title}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/40" />
+
+              <div className="relative z-20 h-full flex items-center p-6 md:p-12">
+                <div className="max-w-xl">
+                  <span className="bg-red-600 text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest inline-block mb-4">
+                    🔥 Featured
+                  </span>
+
+                  <h1 className="text-3xl md:text-5xl font-black mb-4">
+                    {trending[0].title}
+                  </h1>
+
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-300 mb-4">
+                    {trending[0].releaseDate && (
+                      <span>
+                        {new Date(trending[0].releaseDate).getFullYear()}
+                      </span>
+                    )}
+                    <span className="text-yellow-400 font-bold">
+                      ⭐ {trending[0].rating?.toFixed(1) || "N/A"}
+                    </span>
+                  </div>
+
+                  <p className="text-neutral-300 text-sm md:text-base line-clamp-3 mb-6">
+                    {trending[0].description}
+                  </p>
+
+                  <Link
+                    to={`/movie/${trending[0].slug || trending[0]._id}`}
+                    className="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-md transition-all"
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT: Two Smaller Movies */}
+            <div className="grid grid-rows-2 gap-6">
+              {trending.slice(1, 3).map((movie) => (
+                <div
+                  key={movie._id}
+                  className="relative rounded-2xl overflow-hidden group"
+                >
+                  <img
+                    src={movie.poster}
+                    alt={movie.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
+
+                  <div className="relative z-20 h-full flex flex-col justify-end p-6">
+                    <h3 className="text-xl font-bold mb-2">{movie.title}</h3>
+
+                    <div className="flex items-center gap-3 text-xs text-neutral-300 mb-3">
+                      {movie.releaseDate && (
+                        <span>{new Date(movie.releaseDate).getFullYear()}</span>
+                      )}
+                      <span className="text-yellow-400 font-bold">
+                        ⭐ {movie.rating?.toFixed(1) || "N/A"}
+                      </span>
+                    </div>
+
+                    <p className="text-neutral-400 text-xs line-clamp-2 mb-4">
+                      {movie.description}
+                    </p>
+
+                    <Link
+                      to={`/movie/${movie.slug || movie._id}`}
+                      className="bg-white text-black text-xs font-bold px-4 py-2 rounded-md w-fit hover:bg-red-600 hover:text-white transition-all"
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
       )}
 
       <main className="max-w-7xl mx-auto px-6 py-10">
